@@ -33,7 +33,7 @@ public class bookingStepDefs {
                 Boolean.parseBoolean(bookingData.get("deposit"))
         );
 
-        if (response.getStatusCode() == 200) {
+        if (response.getStatusCode() == 201) {
             bookingId = response.jsonPath().getInt("bookingid");
         }
     }
