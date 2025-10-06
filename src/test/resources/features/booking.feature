@@ -7,6 +7,7 @@ Feature: Booking API Operations
   Background:
     Given the base URI is set to "https://automationintesting.online/"
 
+  @CreateBooking
   Scenario: Create a new booking with valid data
     When I create a booking with following details:
       | firstname | KataApi           |
@@ -21,12 +22,14 @@ Feature: Booking API Operations
     And the response should contain booking details
     And the booking ID should be generated
 
+  @GetBooking
   Scenario: Get booking by ID
     Given a booking exists with ID
     When I retrieve the booking by ID
     Then the response status code should be 200
     And the response should contain correct booking details
 
+  @UpdateBooking
   Scenario: Update an existing booking
     Given a booking exists with ID
     When I update the booking with new details:
@@ -36,6 +39,7 @@ Feature: Booking API Operations
     Then the response status code should be 200
     And the response should contain updated details
 
+  @CancelBooking
   Scenario: Delete a booking
     Given a booking exists with ID
     When I delete the booking
