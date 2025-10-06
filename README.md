@@ -11,8 +11,9 @@ JSON Schema Validation → Ensure response contracts
 
 2. Summary
 This project is built to support End to End API test flows as mentioned below: Creation of hotel booking via JSON payload (POST) GET booking details by Booking ID and verify response fields. DELETE booking and verify status. Assertions on HTTP status codes, JSON response content, and request–response match. Automatic cleanup to maintain idempotent tests.
+Also this project is integrated with Code metrics plugin which helps is self evaluating the code on the fly saving review time and helps in code readability 
 
-3. Prerequisites
+4. Prerequisites
 Java 17 - programming language Maven 4.0.0 - build tool Rest Assured 5.5.2 - RESTful API testing library Cucumber 7.22.2 - BDD framework JSON Schema Validator 5.5.5 - JSON validation library JUnit Jupiter 5.12.2 - Test library JUnit Platform Suite 1.12.2 - Test discovery and test execution infrastructure Lombok 1.18.38 - Library to reduce boiler plate and increase code readability GSON 2.11.0 - JSON parsing library
 
 Accessible Booking API endpoint Website URL - https://automationintesting.online/ Auth Swagger - https://automationintesting.online/auth/swagger-ui/index.html Booking Swagger https://automationintesting.online/booking/swagger-ui/index.html
