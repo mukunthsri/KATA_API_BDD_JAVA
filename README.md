@@ -8,6 +8,7 @@ It supports creating, retrieving, and deleting bookings using your specified pay
 Cucumber (BDD) → Human-readable test cases
 RestAssured → API request/response handling
 JSON Schema Validation → Ensure response contracts
+
 2. Summary
 This project is built to support End to End API test flows as mentioned below: Creation of hotel booking via JSON payload (POST) GET booking details by Booking ID and verify response fields. DELETE booking and verify status. Assertions on HTTP status codes, JSON response content, and request–response match. Automatic cleanup to maintain idempotent tests.
 
