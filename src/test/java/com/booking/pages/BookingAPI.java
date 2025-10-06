@@ -1,4 +1,4 @@
-package pages;
+package com.booking.pages;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -26,10 +26,10 @@ public class BookingAPI {
             auth.put("password", "password");
 
             Response response = RestAssured.given()
-                    .contentType(ContentType.JSON)
+                    .contentType(ContentType.JSON).log().all()
                     .body(auth)
                     .when()
-                    .post(ConfigManager.getBaseURI() + "api/auth/login");
+                    .post("api/auth/login");
 
             token = response.jsonPath().getString("token");
         }
@@ -38,6 +38,7 @@ public class BookingAPI {
 
     public Response createBooking(String firstname, String lastname, String email,
                                   String phone, String checkin, String checkout, boolean deposit, int roomid) {
+
         Map<String, Object> bookingDates = new HashMap<>();
         bookingDates.put("checkin", checkin);
         bookingDates.put("checkout", checkout);
@@ -56,12 +57,13 @@ public class BookingAPI {
                 .headers("Content-Type", "application/json")
                 .body(booking)
                 .when()
-                .post(ConfigManager.getBaseURI() + "api/booking/");
+                .log().all()
+                .post("api/booking/");
 
     }
 
     public Response getBooking(int bookingId) {
-        return RestAssured.given()
+        return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header("Cookie", "token=" + getAuthToken())
                 .when()
@@ -74,7 +76,7 @@ public class BookingAPI {
         updateData.put("lastname", lastname);
         updateData.put("email", email);
 
-        return RestAssured.given()
+        return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header("Cookie", "token=" + getAuthToken())
                 .body(updateData)
@@ -83,7 +85,7 @@ public class BookingAPI {
     }
 
     public Response deleteBooking(int bookingId) {
-        return RestAssured.given()
+        return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header("Cookie", "token=" + getAuthToken())
                 .when()

@@ -1,11 +1,10 @@
-package stepdefinitions;
+package com.booking.stepdefinitions;
 
+import com.booking.pages.BookingAPI;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
-import pages.BookingAPI;
-import utils.ConfigManager;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +22,6 @@ public class bookingStepDefs {
     @When("I create a booking with following details:")
     public void createBooking(io.cucumber.datatable.DataTable dataTable) {
         var bookingData = dataTable.asMap(String.class, String.class);
-
         response = bookingAPI.createBooking(
                 bookingData.get("firstname"),
                 bookingData.get("lastname"),
@@ -34,10 +32,9 @@ public class bookingStepDefs {
                 Boolean.parseBoolean(bookingData.get("deposit")),
                 Integer.parseInt(bookingData.get("roomid"))
         );
-        System.out.println(ConfigManager.getBaseURI() + "api/booking/");
-        // if (response.getStatusCode() == 201) {
-        //   bookingId = response.jsonPath().getInt("bookingid");
-        //}
+        if (response.getStatusCode() == 201) {
+            bookingId = response.jsonPath().getInt("bookingid");
+        }
     }
 
     @Given("a booking exists with ID")
