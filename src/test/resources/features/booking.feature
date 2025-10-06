@@ -1,4 +1,4 @@
-@Positive @Valid Credentials
+@Positive @ValidCredentials
 Feature: Booking API Operations
   As an user
   I want to perform booking operations
@@ -16,7 +16,7 @@ Feature: Booking API Operations
       | checkin   | 2025-10-20        |
       | checkout  | 2025-10-21        |
       | deposit   | false             |
-    Then the response status code should be 200
+    Then the response status code should be 201
     And the response should contain booking details
     And the booking ID should be generated
 
