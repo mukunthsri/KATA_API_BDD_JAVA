@@ -23,9 +23,13 @@ public class ConfigManager {
     public static String getBaseURI() {
         return properties.getProperty("baseURI");
     }
+
     public static String getAuthToken() {
         return properties.getProperty("token");
     }
 
+    public static String getJSONAsString() {
+        return properties.getProperty("createBookingJSONAsString");
+    }
 
 }
