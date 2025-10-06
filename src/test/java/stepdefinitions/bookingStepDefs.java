@@ -5,6 +5,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 import pages.BookingAPI;
+import utils.ConfigManager;
 
 import static org.junit.Assert.*;
 
@@ -30,12 +31,13 @@ public class bookingStepDefs {
                 bookingData.get("phone"),
                 bookingData.get("checkin"),
                 bookingData.get("checkout"),
-                Boolean.parseBoolean(bookingData.get("deposit"))
+                Boolean.parseBoolean(bookingData.get("deposit")),
+                Integer.parseInt(bookingData.get("roomid"))
         );
-
-        if (response.getStatusCode() == 201) {
-            bookingId = response.jsonPath().getInt("bookingid");
-        }
+        System.out.println(ConfigManager.getBaseURI() + "api/booking/");
+        // if (response.getStatusCode() == 201) {
+        //   bookingId = response.jsonPath().getInt("bookingid");
+        //}
     }
 
     @Given("a booking exists with ID")
@@ -44,7 +46,7 @@ public class bookingStepDefs {
             // Create a booking first if none exists
             response = bookingAPI.createBooking(
                     "KataApi", "Automation", "apikata@gmail.com",
-                    "+23423252623", "2025-10-20", "2025-10-21", false
+                    "+23423252623", "2025-10-20", "2025-10-21", false, 2
             );
             bookingId = response.jsonPath().getInt("bookingid");
         }

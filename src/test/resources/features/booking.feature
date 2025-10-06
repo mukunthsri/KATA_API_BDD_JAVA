@@ -16,6 +16,7 @@ Feature: Booking API Operations
       | checkin   | 2025-10-20        |
       | checkout  | 2025-10-21        |
       | deposit   | false             |
+      | roomid    | 2                 |
     Then the response status code should be 201
     And the response should contain booking details
     And the booking ID should be generated

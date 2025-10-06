@@ -9,14 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BookingAPI {
-    private String token;
-   /* private String baseURI;
+
+    private String baseURI;
     private String token;
 
     public void setBaseURI(String baseURI) {
         this.baseURI = baseURI;
         RestAssured.baseURI = baseURI;
-    }*/
+        RestAssured.useRelaxedHTTPSValidation();
+    }
 
     private String getAuthToken() {
         if (token == null) {
@@ -36,7 +37,7 @@ public class BookingAPI {
     }
 
     public Response createBooking(String firstname, String lastname, String email,
-                                  String phone, String checkin, String checkout, boolean deposit) {
+                                  String phone, String checkin, String checkout, boolean deposit, int roomid) {
         Map<String, Object> bookingDates = new HashMap<>();
         bookingDates.put("checkin", checkin);
         bookingDates.put("checkout", checkout);
@@ -48,12 +49,15 @@ public class BookingAPI {
         booking.put("phone", phone);
         booking.put("bookingdates", bookingDates);
         booking.put("depositpaid", deposit);
+        booking.put("roomid", roomid);
 
         return RestAssured.given()
                 .contentType(ContentType.JSON)
+                .headers("Content-Type", "application/json")
                 .body(booking)
                 .when()
                 .post(ConfigManager.getBaseURI() + "api/booking/");
+
     }
 
     public Response getBooking(int bookingId) {
