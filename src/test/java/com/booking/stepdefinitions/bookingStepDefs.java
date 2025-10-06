@@ -54,6 +54,26 @@ public class bookingStepDefs {
         response = bookingAPI.getBooking(bookingId);
     }
 
+    @Given("user enters invalid booking details {string}, {string}, {string},{string},{string},{string},{string},{string}")
+    public void user_enters_invalid_booking_details(String string, String string2, String string3, String string4, String string5, String string6, String string7, String string8) {
+
+    }
+
+    @When("user sends POST request to create a booking")
+    public void user_sends_post_request_to_create_a_booking() {
+
+    }
+
+    @Then("response code should be {int}")
+    public void response_code_should_be(Integer int1) {
+
+    }
+
+    @Then("booking response should contain the error message {string}")
+    public void booking_response_should_contain_the_error_message(String string) {
+
+    }
+
     @When("I update the booking with new details:")
     public void updateBooking(io.cucumber.datatable.DataTable dataTable) {
         var updateData = dataTable.asMap(String.class, String.class);
