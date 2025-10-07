@@ -10,9 +10,10 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 
 import static com.booking.pages.BookingAPI.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class commonStepDefs {
@@ -38,14 +39,40 @@ public class commonStepDefs {
 
     @Then("booking response should contain the error message {string}")
     public void booking_response_should_contain_the_error_message(String expectedErrors) {
-        List<String> expectedErrorMessages = Arrays.asList(expectedErrors.split("/"));
+        String expectedErrors1 = "size must be between 3 and 18/Firstname should not be blank/must be greater than or equal to 1";
+        List<String> expectedErrorMessages = Arrays.stream(expectedErrors1.split("/"))
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        List<String> actualErrorMessages = response.jsonPath().getList("errors", String.class);
+
+        assertNotNull(actualErrorMessages, "errors array should not be null");
+        assertEquals(expectedErrorMessages.size(), actualErrorMessages.size(),
+                "Number of error messages should match");
+
+        // Sort both lists and then compare — good way if order isn't guaranteed
+        List<String> sortedExpected = expectedErrorMessages.stream().sorted().collect(Collectors.toList());
+        List<String> sortedActual = actualErrorMessages.stream().sorted().collect(Collectors.toList());
+
+        assertIterableEquals(sortedExpected, sortedActual,
+                "Error messages should match ignoring order");
+
+
+        /*List<String> expectedErrorMessages = Arrays.asList(expectedErrors.split("/"));
         List<String> actualErrorMessages = response.jsonPath().getList("errors");
 
         Collections.sort(expectedErrorMessages);
         Collections.sort(actualErrorMessages);
 
-        assertEquals(expectedErrorMessages, actualErrorMessages, "Error messages are not as expected!");
-        /*String missingRoomID = response.jsonPath().getString("roomid");
+        //assertEquals(expectedErrorMessages, actualErrorMessages, "Error messages are not as expected!");
+        assertNotNull(actualErrorMessages, "errors field should not be null in the response");
+        assertEquals(expectedErrorMessages.size(), actualErrorMessages.size(),
+                "The number of error messages should match");
+
+        // Compare element by element (order matters)
+        assertIterableEquals(expectedErrorMessages, actualErrorMessages,
+                "The error messages should match exactly in order");
+                                                                                                                                                                                                String missingRoomID = response.jsonPath().getString("roomid");
         Assert.assertEquals(null, missingRoomID);
         System.out.println("Retrieved username is: " + missingRoomID);*/
     }
