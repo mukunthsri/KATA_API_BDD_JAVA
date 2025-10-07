@@ -16,10 +16,12 @@ Also this project is integrated with Code metrics plugin which helps is self eva
 4. Prerequisites
 Java 17 - programming language Maven 4.0.0 - build tool Rest Assured 5.5.2 - RESTful API testing library Cucumber 7.22.2 - BDD framework JSON Schema Validator 5.5.5 - JSON validation library JUnit Jupiter 5.12.2 - Test library JUnit Platform Suite 1.12.2 - Test discovery and test execution infrastructure Lombok 1.18.38 - Library to reduce boiler plate and increase code readability GSON 2.11.0 - JSON parsing library
 
-Accessible Booking API endpoint Website URL - https://automationintesting.online/ Auth Swagger - https://automationintesting.online/auth/swagger-ui/index.html Booking Swagger https://automationintesting.online/booking/swagger-ui/index.html
+Accessible Booking API endpoint Website URL - https://automationintesting.online/ 
+Auth Swagger - https://automationintesting.online/auth/swagger-ui/index.html 
+Booking Swagger https://automationintesting.online/booking/swagger-ui/index.html
 
 4. Setup
-Clone or copy this project into your local machine. Open in your IDE (e.g. IntelliJ IDEA, Eclipse). Update maven dependency (if needed) via pom.xml. Configure the API base URI (in ApiClient.java) to point to your running booking API.
+Clone or copy this project into your local machine. Open in your IDE (e.g. IntelliJ IDEA, Eclipse). Update maven dependency (if needed) via pom.xml. Configure the API base URI (in ConfigManager.java) to point to your running booking API.
 
 5. Configuration
 Set BASE_URI to the host/URL of your booking API (https://automationintesting.online/) under (config.properties). If any changes to your API path (eg: /bookings instead of /booking), update the endpoints in step definitions (Hooks.java). You can also externalize configuration (e.g. via application.properties, environment variables) for flexibility in CI environments.
@@ -27,7 +29,7 @@ Set BASE_URI to the host/URL of your booking API (https://automationintesting.on
 6. Running Tests
 
 Via Maven:
-mvn clean test
+mvn clean test - Has some issues with Junit tests debugging it.
 This will run the Cucumber tests (via RunCucumberTest) and generate the default report.
 Via IDE: Run the RunCucumberTest class as a JUnit test. Cucumber will execute scenarios and produce a report.
 
@@ -66,6 +68,7 @@ Connectivity issues: Ensure the API server is running and reachable from your ma
 Parallel execution: If running tests in parallel, guarantee unique booking IDs or isolate data to avoid collisions.
 
 11. Known Issues
-Auth Swagger - https://automationintesting.online/auth/swagger-ui/index.html (currently not working - 404 error) Booking Swagger - https://automationintesting.online/booking/swagger-ui/index.html (currently not working - 404 error)
+Auth Swagger - https://automationintesting.online/auth/swagger-ui/index.html (currently not working - 404 error) 
+Booking Swagger - https://automationintesting.online/booking/swagger-ui/index.html (currently not working - 404 error)
 
 Since the swagger UI is down delete and update requests are parked aside as of now, once resolved corresponding validations and verifications will be integrated
