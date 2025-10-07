@@ -1,14 +1,19 @@
 package com.booking.pages;
 
+import com.booking.models.Booking;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import lombok.Getter;
+import lombok.Setter;
 import utils.ConfigManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BookingAPI {
 
@@ -16,11 +21,52 @@ public class BookingAPI {
     public static int bookingId;
     private String baseURI;
     private String token;
+    private static BookingAPI bookingAPI;
+    @Getter
+    @Setter
+    private Response resp;
+
+    @Getter
+    @Setter
+    private Booking bookingDetails;
+
+    public static synchronized BookingAPI getBookingAPIInstance() {
+        if (bookingAPI == null) {
+            bookingAPI = new BookingAPI();
+        }
+
+        return bookingAPI;
+    }
 
     public void setBaseURI(String baseURI) {
         this.baseURI = baseURI;
         RestAssured.baseURI = baseURI;
         RestAssured.useRelaxedHTTPSValidation();
+    }
+
+    public Response invalidPost() {
+        Map<String, String> bookingDetail = new HashMap<>();
+        bookingDetail.put("firstname", bookingDetail.get("firstName"));
+        bookingDetail.put("lastname", bookingDetail.get("lastName"));
+        bookingDetail.put("email", bookingDetail.get("email"));
+        bookingDetail.put("phone", bookingDetail.get("phone"));
+        bookingDetail.put("roomid", bookingDetail.get("roomId"));
+        bookingDetail.put("depositPaid", bookingDetail.get("depositPaid"));
+        bookingDetail.put("checkin", bookingDetail.get("2025-10-20"));
+        bookingDetail.put("checkout", bookingDetail.get("2025-10-21"));
+
+        RestAssured.baseURI = ConfigManager.getBaseURI();
+        RequestSpecification request = RestAssured.given();
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON).log().all()
+                .body(bookingDetail)
+                .when()
+                .post("api/booking");
+        assertEquals(400, response.getStatusCode());
+        assertEquals(response.getBody().prettyPrint(), response.getBody().asString());
+        System.out.println(response.getBody().prettyPrint());
+        System.out.println("Response status code is: " + response.getStatusCode());
+        return response;
     }
 
     private String getAuthToken() {

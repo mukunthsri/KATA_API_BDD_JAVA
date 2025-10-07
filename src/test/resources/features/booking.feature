@@ -1,10 +1,10 @@
-@Positive @ValidCredentials
+@CreateBooking
 Feature: Booking API Operations
   As an user
   I want to perform booking operations
   So that I can manage hotel bookings
 
-  @CreateBooking
+  @CreateBookingValid
   Scenario: Create a new booking with valid data
     Given I create a booking with following details:
     Then the response status code should be 201

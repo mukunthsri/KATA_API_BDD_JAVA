@@ -1,5 +1,6 @@
 package com.booking.stepdefinitions;
 
+import com.booking.models.Booking;
 import com.booking.pages.BookingAPI;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -7,21 +8,19 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 
-import static com.booking.pages.BookingAPI.bookingId;
-import static com.booking.pages.BookingAPI.response;
-import static org.junit.Assert.*;
+import static com.booking.pages.BookingAPI.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.*;
 
 
 public class commonStepDefs {
 
     private BookingAPI bookingAPI = new BookingAPI();
 
-    @Given("user enters invalid booking details {string}, {string}, {string},{string},{string},{string},{string},{string}")
-    public void user_enters_invalid_booking_details(String string, String string2, String string3, String string4, String string5, String string6, String string7, String string8) {
-        response = bookingAPI.createBooking("", "", "@gmail.com", "", "", "2025-10-21", false, 2);
-        if (response.getStatusCode() == 400) {
-            bookingId = response.jsonPath().getInt("bookingid");
-        }
+    @Given("user enters booking details")
+    public void user_enters_booking_details(io.cucumber.datatable.DataTable dataTable) {
+        //bookingAPI.invalidPost();
+        bookingAPI.setBookingDetails(new Booking(dataTable.asMaps().get(0)));
     }
 
     @When("user sends POST request to create a booking")
@@ -35,7 +34,14 @@ public class commonStepDefs {
     }
 
     @Then("booking response should contain the error message {string}")
-    public void booking_response_should_contain_the_error_message(String string) {
+    public void booking_response_should_contain_the_error_message(String expectedErrors) {
+        List<String> expectedErrorMessages = Arrays.asList(expectedErrors.split("/"));
+        List<String> actualErrorMessages = response.jsonPath().getList("errors");
+
+        Collections.sort(expectedErrorMessages);
+        Collections.sort(actualErrorMessages);
+
+        assertEquals(expectedErrorMessages, actualErrorMessages, "Error messages are not as expected!");
 
     }
 

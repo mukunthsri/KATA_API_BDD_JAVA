@@ -16,7 +16,7 @@ public class TestRunner {
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features/booking.feature", // Path to your feature files
+        features = "src/test/resources/features/invalidbooking.feature", // Path to your feature files
         glue = {"com.booking.stepdefinitions"}, // Package where your step definitions are located
         plugin = {"pretty", "html:target/cucumber-reports/html-report.html", "json:target/cucumber-reports/cucumber.json"},
         monochrome = true // Makes console output more readable
