@@ -31,6 +31,10 @@ public class ConfigManager {
     public static String getJSONAsString() {
         return properties.getProperty("createBookingJSONAsString");
     }
+    public static String getInvalidJSONAsString() {
+        return properties.getProperty("missingRoomIDJSONAsString");
+    }
+
 
     public static String getBookingEndPoint() {
         return properties.getProperty("createBookingJSONAsString");

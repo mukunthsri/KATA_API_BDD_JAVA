@@ -44,7 +44,19 @@ public class BookingAPI {
     }
 
     public Response invalidPost() {
-        Map<String, String> bookingDetail = new HashMap<>();
+        response = given()
+                .baseUri("https://automationintesting.online/")
+                .basePath("api/booking")
+                .contentType(ContentType.JSON)
+                .body(ConfigManager.getInvalidJSONAsString())
+                .when()
+                .log().all()
+                .post()
+                .thenReturn();
+        response.then().statusCode(400);
+        return response;
+
+        /*Map<String, String> bookingDetail = new HashMap<>();
         bookingDetail.put("firstname", bookingDetail.get("firstName"));
         bookingDetail.put("lastname", bookingDetail.get("lastName"));
         bookingDetail.put("email", bookingDetail.get("email"));
@@ -65,7 +77,7 @@ public class BookingAPI {
         assertEquals(resp.getBody().prettyPrint(), resp.getBody().asString());
         System.out.println(resp.getBody().prettyPrint());
         System.out.println("Response status code is: " + resp.getStatusCode());
-        return resp;
+        return resp;*/
     }
 
     private String getAuthToken() {
