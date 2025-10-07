@@ -137,3 +137,4 @@ Booking Swagger UI: https://automationintesting.online/booking/swagger-ui/index.
  – Currently not working (404 error).
 
 Note: Due to the unavailability of Swagger UI, DELETE and PUT requests are currently parked. These validations and verifications will be integrated once resolved.
+Also to avoid conflict(409) change the room id in the config.properties files(createBookingJSONAsString value) 
