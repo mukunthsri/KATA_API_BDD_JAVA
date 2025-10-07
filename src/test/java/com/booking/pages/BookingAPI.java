@@ -8,8 +8,12 @@ import utils.ConfigManager;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
+
 public class BookingAPI {
 
+    public static Response response;
+    public static int bookingId;
     private String baseURI;
     private String token;
 
@@ -34,6 +38,20 @@ public class BookingAPI {
             token = response.jsonPath().getString("token");
         }
         return token;
+    }
+
+    public Response postBooking() {
+        response = given()
+                .baseUri("https://automationintesting.online/")
+                .basePath("api/booking")
+                .contentType(ContentType.JSON)
+                .body(ConfigManager.getJSONAsString())
+                .when()
+                .log().all()
+                .post()
+                .thenReturn();
+        response.then().statusCode(201);
+        return response;
     }
 
     public Response createBooking(String firstname, String lastname, String email,
