@@ -38,16 +38,16 @@ public class commonStepDefs {
 
     @Then("booking response should contain the error message {string}")
     public void booking_response_should_contain_the_error_message(String expectedErrors) {
-        /*List<String> expectedErrorMessages = Arrays.asList(expectedErrors.split("/"));
-        List<String> actualErrorMessages = resp.jsonPath().getList("errors");
+        List<String> expectedErrorMessages = Arrays.asList(expectedErrors.split("/"));
+        List<String> actualErrorMessages = response.jsonPath().getList("errors");
 
         Collections.sort(expectedErrorMessages);
         Collections.sort(actualErrorMessages);
 
-        assertEquals(expectedErrorMessages, actualErrorMessages, "Error messages are not as expected!");*/
-        String missingRoomID = response.jsonPath().getString("roomid");
+        assertEquals(expectedErrorMessages, actualErrorMessages, "Error messages are not as expected!");
+        /*String missingRoomID = response.jsonPath().getString("roomid");
         Assert.assertEquals(null, missingRoomID);
-        System.out.println("Retrieved username is: " + missingRoomID);
+        System.out.println("Retrieved username is: " + missingRoomID);*/
     }
 
     @Then("the response should contain correct booking details")
