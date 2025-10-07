@@ -1,50 +1,26 @@
 package com.booking.stepdefinitions;
 
-import com.booking.models.Booking;
 import com.booking.pages.BookingAPI;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
-import utils.RestAssuredManager;
 
-
+import static com.booking.pages.BookingAPI.bookingId;
+import static com.booking.pages.BookingAPI.response;
 import static org.junit.Assert.*;
-import static utils.RestAssuredManager.getRestAssuredManagerInstance;
 
 
 public class commonStepDefs {
 
-    private final RestAssuredManager restAssuredManager = getRestAssuredManagerInstance();
-
     private BookingAPI bookingAPI = new BookingAPI();
-    Response response;
-
-    @Given("I create a booking with following details:")
-    public void createBooking(DataTable dataTable) {
-        restAssuredManager.setBookingDetails(new Booking(dataTable.asMaps().get(0)));
-    }
-
-    @Given("a booking exists with ID")
-    public void bookingExists() {
-        //  if (bookingId == 0) {
-        // Create a booking first if none exists
-        response = bookingAPI.createBooking("KataApi", "Automation", "apikata@gmail.com", "+23423252623", "2025-10-20", "2025-10-21", false, 2);
-        // bookingId = response.jsonPath().getInt("bookingid");
-        // }
-    }
-
-    @When("I retrieve the booking by ID")
-    public void retrieveBooking() {
-        // response = bookingAPI.getBooking(bookingId);
-    }
 
     @Given("user enters invalid booking details {string}, {string}, {string},{string},{string},{string},{string},{string}")
     public void user_enters_invalid_booking_details(String string, String string2, String string3, String string4, String string5, String string6, String string7, String string8) {
         response = bookingAPI.createBooking("", "", "@gmail.com", "", "", "2025-10-21", false, 2);
         if (response.getStatusCode() == 400) {
-            //bookingId = response.jsonPath().getInt("bookingid");
+            bookingId = response.jsonPath().getInt("bookingid");
         }
     }
 
@@ -63,36 +39,6 @@ public class commonStepDefs {
 
     }
 
-    @When("I update the booking with new details:")
-    public void updateBooking(DataTable dataTable) {
-        var updateData = dataTable.asMap(String.class, String.class);
-
-        //response = bookingAPI.updateBooking(bookingId, updateData.get("firstname"), updateData.get("lastname"), updateData.get("email"));
-    }
-
-    @When("I delete the booking")
-    public void deleteBooking() {
-        //response = bookingAPI.deleteBooking(bookingId);
-    }
-
-    @Then("the response status code should be {int}")
-    public void verifyStatusCode(int expectedStatusCode) {
-        assertEquals(expectedStatusCode, response.getStatusCode());
-    }
-
-    @Then("the response should contain booking details")
-    public void verifyBookingDetails() {
-        /*assertNotNull(response.jsonPath().getString("booking.firstname"));
-        assertNotNull(response.jsonPath().getString("booking.lastname"));
-        assertNotNull(response.jsonPath().getString("booking.bookingdates.checkin"));
-        assertNotNull(response.jsonPath().getString("booking.bookingdates.checkout"));*/
-    }
-
-    @Then("the booking ID should be generated")
-    public void verifyBookingId() {
-        assertTrue(true);
-    }
-
     @Then("the response should contain correct booking details")
     public void verifyCorrectBookingDetails() {
         assertEquals("KataApi", response.jsonPath().getString("firstname"));
@@ -107,7 +53,32 @@ public class commonStepDefs {
 
     @Then("the booking should be deleted")
     public void verifyBookingDeleted() {
-        //Response getResponse = bookingAPI.getBooking(bookingId);
-        //assertEquals(404, getResponse.getStatusCode());
+        Response getResponse = bookingAPI.getBooking(bookingId);
+        assertEquals(404, getResponse.getStatusCode());
+    }
+
+    @Given("a booking exists with ID")
+    public void bookingExists() {
+        if (bookingId == 0) {
+            // Create a booking first if none exists
+            response = bookingAPI.createBooking("KataApi", "Automation", "apikata@gmail.com", "+23423252623", "2025-10-20", "2025-10-21", false, 2);
+            bookingId = response.jsonPath().getInt("bookingid");
+        }
+    }
+
+    @When("I retrieve the booking by ID")
+    public void retrieveBooking() {
+        response = bookingAPI.getBooking(bookingId);
+    }
+
+    @When("I update the booking with new details:")
+    public void updateBooking(DataTable dataTable) {
+        var updateData = dataTable.asMap(String.class, String.class);
+        response = bookingAPI.updateBooking(bookingId, updateData.get("firstname"), updateData.get("lastname"), updateData.get("email"));
+    }
+
+    @When("I delete the booking")
+    public void deleteBooking() {
+        response = bookingAPI.deleteBooking(bookingId);
     }
 }
