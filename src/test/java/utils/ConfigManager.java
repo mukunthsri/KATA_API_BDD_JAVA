@@ -32,4 +32,8 @@ public class ConfigManager {
         return properties.getProperty("createBookingJSONAsString");
     }
 
+    public static String getBookingEndPoint() {
+        return properties.getProperty("createBookingJSONAsString");
+    }
+
 }
