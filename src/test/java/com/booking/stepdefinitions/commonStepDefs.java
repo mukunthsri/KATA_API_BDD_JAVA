@@ -8,8 +8,11 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 
+import static com.booking.pages.BookingAPI.resp;
+
 import static com.booking.pages.BookingAPI.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.*;
 
 
@@ -19,8 +22,8 @@ public class commonStepDefs {
 
     @Given("user enters booking details")
     public void user_enters_booking_details(io.cucumber.datatable.DataTable dataTable) {
-        //bookingAPI.invalidPost();
-        bookingAPI.setBookingDetails(new Booking(dataTable.asMaps().get(0)));
+        bookingAPI.invalidPost();
+        //bookingAPI.setBookingDetails(new Booking(dataTable.asMaps().get(0)));
     }
 
     @When("user sends POST request to create a booking")
@@ -36,7 +39,7 @@ public class commonStepDefs {
     @Then("booking response should contain the error message {string}")
     public void booking_response_should_contain_the_error_message(String expectedErrors) {
         List<String> expectedErrorMessages = Arrays.asList(expectedErrors.split("/"));
-        List<String> actualErrorMessages = response.jsonPath().getList("errors");
+        List<String> actualErrorMessages = resp.jsonPath().getList("errors");
 
         Collections.sort(expectedErrorMessages);
         Collections.sort(actualErrorMessages);

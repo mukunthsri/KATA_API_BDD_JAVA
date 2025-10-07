@@ -22,9 +22,8 @@ public class BookingAPI {
     private String baseURI;
     private String token;
     private static BookingAPI bookingAPI;
-    @Getter
-    @Setter
-    private Response resp;
+
+    public static Response resp;
 
     @Getter
     @Setter
@@ -57,16 +56,16 @@ public class BookingAPI {
 
         RestAssured.baseURI = ConfigManager.getBaseURI();
         RequestSpecification request = RestAssured.given();
-        Response response = RestAssured.given()
+        Response resp = RestAssured.given()
                 .contentType(ContentType.JSON).log().all()
                 .body(bookingDetail)
                 .when()
                 .post("api/booking");
-        assertEquals(400, response.getStatusCode());
-        assertEquals(response.getBody().prettyPrint(), response.getBody().asString());
-        System.out.println(response.getBody().prettyPrint());
-        System.out.println("Response status code is: " + response.getStatusCode());
-        return response;
+        assertEquals(400, resp.getStatusCode());
+        assertEquals(resp.getBody().prettyPrint(), resp.getBody().asString());
+        System.out.println(resp.getBody().prettyPrint());
+        System.out.println("Response status code is: " + resp.getStatusCode());
+        return resp;
     }
 
     private String getAuthToken() {
